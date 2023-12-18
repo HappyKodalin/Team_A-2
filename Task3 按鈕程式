@@ -1,0 +1,69 @@
+'==============================
+'          GUI_Control
+'==============================
+Function GUI_Control_Button1_Click(Sender$ As String)
+Print "程式繼續"
+Cont
+Fend
+
+Function GUI_Control_Button2_Click(Sender$ As String)
+Print "程式暫停"
+Pause
+Fend
+
+Function GUI_Control_Button3_Click(Sender$ As String)
+Quit main
+Quit task1
+Quit task2
+Fend
+
+Function GUI_Control_Button6_Click(Sender$ As String)
+Print "執行主程式"
+Xqt main
+Fend
+
+Function GUI_Control_Button5_Click(Sender$ As String)
+Print "執行Task1程式"
+Xqt task1
+Fend
+
+Function GUI_Control_Button4_Click(Sender$ As String)
+Print "執行Task2程式"
+Xqt task2
+Fend
+
+
+Function GUI_Control_Button7_Click(Sender$ As String)
+GShow GUI_speed
+Fend
+
+
+Function GUI_Control_Button8_Click(Sender$ As String)
+Xqt restart_led
+Fend
+
+'==============================
+'          GUI_Speed
+'==============================
+Function GUI_Speed_Button1_Click(Sender$ As String)
+	Integer gspeed
+	Integer gaccel
+String val$
+GGet GUI_speed.Textspeed.Text, val$
+gspeed = Val(val$)
+Speed gspeed
+GGet GUI_speed.Textaccel.Text, val$
+gaccel = Val(val$)
+Accel gaccel, gaccel
+Print "速度Speed改為: ", Speed
+Print "加速度Accel改為: ", gaccel
+GClose GUI_speed
+Fend
+
+
+Function GUI_speed_Button2_Click(Sender$ As String)
+GSet GUI_speed.DialogResult, DIALOGRESULT_CANCEL
+GClose GUI_speed
+Fend
+
+
