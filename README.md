@@ -1,7 +1,7 @@
 # Team A-2 code
 
 ## Task1 模擬影片
-![123](https://github.com/HappyKodalin/Team_A-2/blob/main/test1%E5%8F%96%E6%94%BE.mp4)
+[![Alt text]()]
 
 ## Task2 模擬影片
 ![123](https://github.com/HappyKodalin/Team_A-2/blob/main/test2%E7%96%8A%E7%96%8A%E6%A8%822.mp4)
