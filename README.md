@@ -1,4 +1,11 @@
 # Team A-2 code
+
+## Task1 模擬影片
+![Alt text](https://youtu.be/_5Xv-JR7kB4)
+
+## Task2 模擬影片
+![Alt text](https://youtu.be/YnPk6M07ZD0)
+
 Task3 GUI操控:
 利用GUI可執行程式，也可更改手臂的移動速度。
 
