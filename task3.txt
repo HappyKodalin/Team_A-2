@@ -1,0 +1,307 @@
+'==============================
+'            Task 3
+'==============================
+' 宣告變數名稱
+Integer Tokens
+Integer Blocks
+Integer TokenID
+Integer BlockID
+
+Integer Element
+Integer ElementID
+Integer num
+Integer vsp
+
+Double TokenHeight
+Double BlockHeight
+Double InfeedHeight
+Double AlignmentHeight
+Double TrayHeight
+Double SafeHeight
+Double TrayPitch
+
+Double Origin_Infeed_Token_X
+Double Origin_Infeed_Token_Y
+Double Infeed_Alignment_Token_X
+Double Infeed_Alignment_Token_Y
+Double Alignment_Tray_Token_X
+Double Alignment_Tray_Token_Y
+
+Double Origin_Infeed_Block_X
+Double Infeed_Alignment_Block_X
+Double Infeed_Alignment_Block_Y
+Double Alignment_Tray_Block_X
+Double Alignment_Tray_Block_Y
+
+Function main
+vsp = 10
+  Motor On
+  Do
+  If Sw(0) = On And Sw(1) = On Then '手臂加速
+   vsp = vsp + 10
+   Print "目前手臂速度:", vsp
+   Wait .2
+  ElseIf Sw(0) = On And Sw(2) = On Then '手臂減速
+   vsp = vsp - 10
+   Print "目前手臂速度:", vsp
+   Wait .2
+  ElseIf Sw(0) = Off And Sw(7) = On And Sw(1) = On Then 'High power執行手臂程式1
+   Print "現在以High power執行Task1手臂程式"
+   Power High
+   task1()
+   Wait .2
+  ElseIf Sw(0) = Off And Sw(7) = Off And Sw(1) = On Then 'Low power執行手臂程式1
+   Print "現在以Low power執行Task1手臂程式"
+   Power Low
+   task1()
+   Wait .2
+  ElseIf Sw(0) = Off And Sw(7) = On And Sw(2) = On Then 'High power手臂程式2
+   Print "現在執行Task2手臂程式"
+   Power High
+   task2()
+   Wait .2
+  ElseIf Sw(0) = Off And Sw(7) = Off And Sw(2) = On Then 'Low power手臂程式2
+   Print "現在執行Task2手臂程式"
+   Power Low
+   task2()
+   Wait .2
+  ElseIf Sw(4) = On Then '回Home並結束程式
+   Print "程式結束"
+   Go P0
+   Quit main
+  EndIf
+ Loop
+
+Fend
+
+'==============================
+'            Task 1
+'==============================
+
+Function task1 ' 吸取 Token 跟 Block 到放置盤裡
+	
+' 參數設定
+Speed vsp
+Accel 30, 30
+SpeedS 500
+AccelS 5000
+Tool 1
+
+Tokens = 3 ' 有幾個 Token
+Blocks = 3 ' 有幾個 Block
+TokenHeight = 6.0 ' Token 的高度 6 mm
+BlockHeight = 6.0 ' Block 的高度 6 mm
+InfeedHeight = 10.0 ' 取料盤的高度 10 mm
+AlignmentHeight = 10.0 ' 校正盤的高度 10 mm
+TrayHeight = 10.0 ' 放置盤的高度 10 mm
+SafeHeight = 60.0 ' 安全高度 60 mm
+TrayPitch = 30.0 ' 放置盤每個偏差 30 mm
+
+' Token 偏移量
+Origin_Infeed_Token_X = 161.888 ' 原點到取料盤的 X 偏移量
+Origin_Infeed_Token_Y = 26.917 ' 原點到取料盤的 Y 偏移量
+Infeed_Alignment_Token_X = 1.8 ' 提取退後量
+Infeed_Alignment_Token_Y = 123.604 ' 取料盤到校正盤的 Y 偏移量
+Alignment_Tray_Token_X = -55.41 ' 校正盤到放置盤的 X 偏移量
+Alignment_Tray_Token_Y = 2.86 ' 校正盤到放置盤的 Y 偏移量
+
+' Block 偏移量
+Origin_Infeed_Block_X = 165 ' 原點到取料盤的 X 偏移量
+Infeed_Alignment_Block_X = 1.8 ' 提取退後量
+Infeed_Alignment_Block_Y = 123.604 ' 取料盤到校正盤的 Y 偏移量
+Alignment_Tray_Block_X = -58.41 ' 校正盤到放置盤的 X 偏移量
+Alignment_Tray_Block_Y = -0.225 ' 校正盤到放置盤的 Y 偏移量
+
+
+Go Safe_Point /4 ' 去安全點位 Origin 上方 60 mm
+
+' 吸取 Tokens (圓形)
+For TokenID = Tokens To 1 Step -1
+	Pick_Infeed_Token() ' 取料
+	Alignment_Token() ' 校正
+	Place_Tray_Token() ' 放置
+Next TokenID
+
+Go Safe_Point /4 ' 去安全點位 Origin 上方 60 mm
+
+' 吸取 Blocks (方形)
+For BlockID = Blocks To 1 Step -1
+	Pick_Infeed_Block() ' 取料
+	Alignment_Block() ' 校正
+	Place_Tray_Block() ' 放置
+Next BlockID
+
+Fend
+
+Function Pick_Infeed_Token 	' Pick Token
+	local_grabber = Here @4 ' Origin 上方 60 mm
+	Print "Picking token from infeed. Token ID = ", Tokens
+	Go local_grabber +X(Origin_Infeed_Token_X) +Y(Origin_Infeed_Token_Y) +Z(Tokens * TokenHeight) /4 CP ' 手臂移動到 Token 取料盤上方
+	Move local_grabber +X(Origin_Infeed_Token_X) +Y(Origin_Infeed_Token_Y) +Z(-SafeHeight + InfeedHeight + Tokens * TokenHeight) /4 CP ' 手臂下去吸取 Token
+	Wait .3 ' 等待時間	
+	On 8 ' 開起泵浦
+	Wait .3 ' 等待時間
+	Go local_grabber +X(Origin_Infeed_Token_X - Infeed_Alignment_Token_X) +Y(Origin_Infeed_Token_Y) +Z(Tokens * TokenHeight) /4 CP ' 吸取完後，手臂往後跟往上退出
+	Move local_grabber +X(Origin_Infeed_Token_X - Infeed_Alignment_Token_X) +Y(Origin_Infeed_Token_Y + Infeed_Alignment_Token_Y) /4 CP ' 手臂移動到 Token 校正盤上方 60 mm
+Fend
+
+Function Alignment_Token ' Alignment Token
+	local_grabber = Here @4 ' 手臂移動到 Token 校正盤上方 60 mm
+	Print "Aligning Token. Token ID = ", Tokens
+	Move local_grabber +Z(-SafeHeight + AlignmentHeight + TokenHeight) /4 CP ' 手臂下去放置 Token
+	Wait .3 ' 等待時間	
+	Off 8 ' 關閉泵浦
+	Move local_grabber +X(3) +Z(-SafeHeight + AlignmentHeight + TokenHeight) /4 CP ' 手臂壓緊 Token
+	Move local_grabber +X(3) +Z((-SafeHeight + 5) + AlignmentHeight + TokenHeight) /4 CP ' 手臂離開 Token
+	Move local_grabber +Z((-SafeHeight + 5) + AlignmentHeight + TokenHeight) /4 CP ' 手臂回到 Token 上方
+	Move local_grabber +Z(-SafeHeight + AlignmentHeight + TokenHeight) /4 CP ' 手臂下去吸取 Token
+	Wait .3 ' 等待時間
+	On 8 ' 開起泵浦
+	Wait .3 ' 等待時間
+	Move local_grabber /4 CP ' 吸取完後，手臂往上退出
+	Go local_grabber +X(Alignment_Tray_Token_X) +Y(Alignment_Tray_Token_Y) /4 CP ' 手臂移動到 Token 放置盤上方 60 mm
+Fend
+
+Function Place_Tray_Token ' Tray Token
+	local_grabber = Here @4 ' 手臂移動到 Token 放置盤上方 60 mm
+	Print "Placing Token in Tray. Tray Position ID = ", Tokens
+	Move local_grabber -X(TrayPitch * (Tokens - 1)) /4 CP ' 手臂移動到 Token 放置位置上方
+	Move local_grabber -X(TrayPitch * (Tokens - 1)) +Z(-SafeHeight + TrayHeight) /4 CP ' 手臂下去放置 Token
+	Wait .3 ' 等待時間	
+	Off 8 ' 關閉泵浦
+	Wait .3 ' 等待時間
+	Move local_grabber -X(TrayPitch * (Tokens - 1)) /4 CP ' 放置完後，手臂往上退出
+	Go Safe_Point /4 ' 去安全點位 Origin 上方 60 mm
+	Tokens = Tokens - 1 ' Tokens 數量減一
+Fend
+
+Function Pick_Infeed_Block 	' Pick Block
+	local_grabber = Here @4 ' Origin 上方 60 mm
+	Print "Picking Block from Infeed. Block ID = ", Blocks
+	Go local_grabber +X(Origin_Infeed_Block_X) +Z(Blocks * BlockHeight) /4 CP ' 手臂移動到 Block 取料盤上方
+	Move local_grabber +X(Origin_Infeed_Block_X) +Z(-SafeHeight + InfeedHeight + Blocks * BlockHeight) /4 CP ' 手臂下去吸取 Block
+	Wait .3 ' 等待時間
+	On 8 ' 開起泵浦
+	Wait .3 ' 等待時間
+	Go local_grabber +X(Origin_Infeed_Block_X - Infeed_Alignment_Block_X) +Y(1.5) +Z(Blocks * BlockHeight) /4 CP ' 吸取完後，手臂往後跟往上退出
+	Move local_grabber +X(Origin_Infeed_Block_X - Infeed_Alignment_Block_X) +Y(Infeed_Alignment_Block_Y) /4 CP ' 手臂移動到 Block 校正盤上方 60 mm
+Fend
+
+Function Alignment_Block ' Alignment Block
+	local_grabber = Here @4 ' 手臂移動到 Block 校正盤上方 60 mm
+	Print "Aligning Block. Block ID = ", Blocks
+	Move local_grabber +Z(-SafeHeight + AlignmentHeight + BlockHeight) /4 CP ' 手臂下去放置 Block
+	Wait .3 ' 等待時間	
+	Off 8 ' 關閉泵浦
+	Move local_grabber +Y(-3.5) +Z(-SafeHeight + AlignmentHeight + BlockHeight) /4 CP ' 手臂壓緊 Block
+	Move local_grabber +X(5) +Y(-3.5) +Z(-SafeHeight + AlignmentHeight + BlockHeight) /4 CP ' 手臂壓緊 Block
+	Move local_grabber +X(5) +Y(-3.5) +Z((-SafeHeight + 5) + AlignmentHeight + BlockHeight) /4 CP ' 手臂離開 Block
+	Move local_grabber +Z((-SafeHeight + 5) + AlignmentHeight + BlockHeight) /4 CP ' 手臂回到 Block 上方
+	Move local_grabber +Z(-SafeHeight + AlignmentHeight + BlockHeight) /4 CP ' 手臂下去吸取 Block
+	Wait .3 ' 等待時間
+	On 8 ' 開起泵浦
+	Wait .3 ' 等待時間
+	Move local_grabber /4 CP ' 吸取完後，手臂往上退出
+	Go local_grabber +X(Alignment_Tray_Block_X) +Y(Alignment_Tray_Block_Y) /4 CP ' 手臂移動到 Block 放置盤上方 60 mm
+Fend
+
+Function Place_Tray_Block ' Tray Block
+	local_grabber = Here @4 ' 手臂移動到 Block 放置盤上方 60 mm
+	Print "Placing Block in Tray. Tray Position ID = ", Blocks
+	Move local_grabber -X(TrayPitch * (Blocks - 1)) /4 CP ' 手臂移動到 Block 放置位置上方
+	Move local_grabber -X(TrayPitch * (Blocks - 1)) +Z(-SafeHeight + TrayHeight) /4 CP ' 手臂下去放置 Block
+	Wait .3 ' 等待時間		
+	Off 8 ' 關閉泵浦
+	Wait .3 ' 等待時間
+	Move local_grabber -X(TrayPitch * (Blocks - 1)) /4 CP ' 放置完後，手臂往上退出
+	Go Safe_Point /4 ' 去安全點位 Origin 上方 60 mm
+	Blocks = Blocks - 1 ' Blocks 數量減一
+Fend
+
+' Go: Moves the robot to a point using point to point motion.
+' Move: Moves the robot using linear interpolation.
+' CP: Sets CP (Continuous Path) motion mode.
+' Wait: Wait for condition or time.
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+'==============================
+'            Task 2
+'==============================
+
+Function task2 ' 疊疊樂
+
+' 參數設定
+
+Speed vsp
+Accel 50, 50
+SpeedS 500
+AccelS 5000
+Tool 1
+
+Element = 6 ' 有幾個 Element
+TokenHeight = 6.0 ' Token 的高度 6 mm
+BlockHeight = 6.0 ' Block 的高度 6 mm
+InfeedHeight = 10.0 ' 取料盤的高度 10 mm
+AlignmentHeight = 10.0 ' 校正盤的高度 10 mm
+SafeHeight = 60.0 ' 安全高度 60 mm
+num = 1 ' 初始放置數量為 1 個
+
+' Token 偏移量
+Origin_Infeed_Token_X = 162.75 ' 原點到取料盤的 X 偏移量
+Origin_Infeed_Token_Y = 25.50 ' 原點到取料盤的 Y 偏移量
+Infeed_Alignment_Token_X = 1.0 ' 提取退後量
+Infeed_Alignment_Token_Y = 123.604 ' 取料盤到校正盤的 Y 偏移量
+
+' Block 偏移量
+Origin_Infeed_Block_X = 165 ' 原點到取料盤的 X 偏移量
+Infeed_Alignment_Block_X = 1.5 ' 提取退後量
+Infeed_Alignment_Block_Y = 123.604 ' 取料盤到校正盤的 Y 偏移量
+
+
+Go Safe_Point +X(Origin_Infeed_Block_X - Infeed_Alignment_Block_X) +Y(Infeed_Alignment_Block_Y) /4 ' 去堆疊位置上方 60 mm
+
+For ElementID = Element To 1 Step -1
+Stack() ' 堆疊
+Next ElementID
+
+Fend
+
+Function Stack
+local_grabber = Here @4 ' 手臂移動到堆疊位置上方 60 mm
+' 堆疊 Block
+Move local_grabber +X(Infeed_Alignment_Block_X) -Y(Infeed_Alignment_Block_Y) /4 CP ' 手臂移動到 Block 取料盤上方
+Move local_grabber +X(Infeed_Alignment_Block_X) -Y(Infeed_Alignment_Block_Y) +Z(-SafeHeight + InfeedHeight + Element * BlockHeight - (num - 1) * BlockHeight) /4 CP ' 手臂下去吸取 Block
+Wait .3 ' 等待時間
+On 8 ' 開起泵浦
+Wait .3 ' 等待時間
+Move local_grabber -Y(Infeed_Alignment_Block_Y - 2) /4 CP ' 吸取完後，手臂往上退出
+Move local_grabber +Z(1 * BlockHeight) /4 CP ' 手臂移動到堆疊位置上方 (60 mm + 2 * Element 厚度)
+Move local_grabber +Z(-SafeHeight + InfeedHeight + num * BlockHeight - (num - 1) * BlockHeight) /4 CP ' 手臂下去放置 Block
+Wait .3 ' 等待時間
+Off 8 ' 開起泵浦
+Wait .3 ' 等待時間
+Move local_grabber +Z(1 * BlockHeight) /4 CP ' 手臂移動到堆疊位置上方 (60 mm + 2 * Element 厚度)
+num = num + 1 ' 放置數量 +1
+
+' 堆疊 Token
+Move local_grabber -X(Origin_Infeed_Block_X - Origin_Infeed_Token_X) -Y(Infeed_Alignment_Token_Y - Origin_Infeed_Token_Y) /4 CP ' 手臂移動到 Token 取料盤上方
+Move local_grabber -X(Origin_Infeed_Block_X - Origin_Infeed_Token_X) -Y(Infeed_Alignment_Token_Y - Origin_Infeed_Token_Y) +Z(-SafeHeight + InfeedHeight + Element * TokenHeight - (num - 2) * BlockHeight) /4 CP ' 手臂下去吸取 Token
+Wait .3 ' 等待時間
+On 8 ' 開起泵浦
+Wait .3 ' 等待時間
+Move local_grabber -X(Origin_Infeed_Block_X - Origin_Infeed_Token_X) -Y(Infeed_Alignment_Token_Y - Origin_Infeed_Token_Y) /4 CP ' 吸取完後，手臂往上退出
+Move local_grabber +Z(1 * BlockHeight) /4 CP ' 手臂移動到堆疊位置上方 (60 mm + 2 * Element 厚度)
+Move local_grabber +Z(-SafeHeight + InfeedHeight + num * TokenHeight - (num - 2) * BlockHeight) /4 CP ' 手臂下去放置 Token
+Wait .3 ' 等待時間
+Off 8 ' 開起泵浦
+Wait .3 ' 等待時間
+Move local_grabber +Z(2 * TokenHeight) /4 CP ' 手臂移動到堆疊位置上方 (60 mm + 2 * Element 厚度)
+num = num + 1 ' 放置數量 +1
+Element = Element - 1 ' Element 數量減一
+Fend
+
+' Go: Moves the robot to a point using point to point motion.
+' Move: Moves the robot using linear interpolation.
+' CP: Sets CP (Continuous Path) motion mode.
+' Wait: Wait for condition or time.
