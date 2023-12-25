@@ -6,8 +6,8 @@
 ## Task2 模擬影片
 [![Alt text](https://github.com/HappyKodalin/Team_A-2/blob/main/565.png)](https://youtu.be/YnPk6M07ZD0)
 
-Task3 GUI操控:
-利用GUI可執行程式，也可更改手臂的移動速度。
+## Task3 GUI 與 IO按鈕 控制
+### 1.利用GUI可執行程式，也可更改手臂的移動速度。
 
  👇GUI控制畫面
  
