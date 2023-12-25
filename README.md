@@ -9,7 +9,7 @@
 ## Task3 GUI 與 IO按鈕 控制
 ### 1.利用GUI執行程式，也可更改手臂的移動速度。
 
-👇GUI模擬測試影片/n
+👇GUI模擬測試影片
 [![Alt text](https://github.com/HappyKodalin/Team_A-2/assets/55493510/5abdd5a8-316a-4539-b0d4-605c241f6c21)](https://youtu.be/j7sycMXbqHM)
 
  GUI控制畫面
