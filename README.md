@@ -9,6 +9,10 @@
 ## Task3 GUI 與 IO按鈕 控制
 ### 1.利用GUI可執行程式，也可更改手臂的移動速度。
 
+👇GUI模擬測試影片
+
+[![Alt text](https://github.com/HappyKodalin/Team_A-2/assets/55493510/5abdd5a8-316a-4539-b0d4-605c241f6c21)](https://youtu.be/j7sycMXbqHM)
+
  GUI控制畫面
 | 控制| 介紹 |
 | ------------- | ------------- |
@@ -24,10 +28,6 @@
 | LED燈號 | 偵測Tray盤目前的擺放狀況  |
   
 ![image](https://github.com/HappyKodalin/Team_A-2/assets/55493510/f1333059-2e8a-44d3-ada5-a1a21e031a00)
-
-👇GUI模擬測試影片
-
-[![Alt text](https://github.com/HappyKodalin/Team_A-2/assets/55493510/5abdd5a8-316a-4539-b0d4-605c241f6c21)](https://youtu.be/j7sycMXbqHM)
 
  GUI變換速度畫面
 | 控制| 介紹 |
