@@ -7,7 +7,7 @@
 [![Alt text](https://github.com/HappyKodalin/Team_A-2/blob/main/565.png)](https://youtu.be/YnPk6M07ZD0)
 
 ## Task3 GUI 與 IO按鈕 控制
-### 1.利用GUI可執行程式，也可更改手臂的移動速度。
+### 1.利用GUI執行程式，也可更改手臂的移動速度。
 
 👇GUI模擬測試影片
 
@@ -39,6 +39,10 @@
  
 ![image](https://github.com/HappyKodalin/Team_A-2/assets/55493510/036ceb34-b052-4d3b-ac7b-427098a8af55)
 
-### 2.利用GUI可執行程式，也可更改手臂的移動速度。
+### 2.利用IO執行程式。
+
+👇GUI模擬測試影片/n
+![image](https://github.com/HappyKodalin/Team_A-2/assets/55493510/5771f457-9bdc-47ad-b43e-7c6453d77756)
+
 
 
