@@ -12,6 +12,7 @@ Pause
 Fend
 
 Function GUI_Control_Button3_Click(Sender$ As String)
+Print "程式強制結束"
 Quit main
 Quit task1
 Quit task2
@@ -40,6 +41,10 @@ Fend
 
 Function GUI_Control_Button8_Click(Sender$ As String)
 Xqt restart_led
+Fend
+
+Function GUI_Control_Button9_Click(Sender$ As String)
+Go P0
 Fend
 
 '==============================
