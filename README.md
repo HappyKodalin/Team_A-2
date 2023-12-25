@@ -33,5 +33,6 @@
 | 確認  | 將輸入的速度與加速度，輸出至手臂程式，並關閉視窗。 |
 | 取消  | 關閉視窗，程式速度不變。 | 
  
-![image](https://github.com/HappyKodalin/Team_A-2/assets/55493510/966a8c4c-1b6d-4b55-adf8-8b4ecf591131)
+![image](https://github.com/HappyKodalin/Team_A-2/assets/55493510/036ceb34-b052-4d3b-ac7b-427098a8af55)
+
 
