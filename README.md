@@ -20,6 +20,7 @@
 | 主程式  | 執行main程式。  |
 | Task1  | 執行Task1程式。  |
 | Task2  | 執行Task2程式。  |
+| 重製Tray盤燈號  | 重製LED燈號。  |
  
  
 ![image](https://github.com/HappyKodalin/Team_A-2/assets/55493510/f1333059-2e8a-44d3-ada5-a1a21e031a00)
