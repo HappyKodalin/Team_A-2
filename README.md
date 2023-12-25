@@ -39,4 +39,6 @@
  
 ![image](https://github.com/HappyKodalin/Team_A-2/assets/55493510/036ceb34-b052-4d3b-ac7b-427098a8af55)
 
+### 2.利用GUI可執行程式，也可更改手臂的移動速度。
+
 
