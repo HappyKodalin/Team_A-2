@@ -8,7 +8,7 @@
 
 ## Task3 GUI 與 IO按鈕 控制
 ### 1.利用GUI執行程式，也可更改手臂的移動速度。
-(詳閱Task3 [GUI主程式](https://github.com/HappyKodalin/Team_A-2/blob/main/Task3%20GUI%20%E4%B8%BB%E7%A8%8B%E5%BC%8F)與按鈕程式)
+(詳閱Task3 [GUI主程式](https://github.com/HappyKodalin/Team_A-2/blob/main/Task3%20GUI%20%E4%B8%BB%E7%A8%8B%E5%BC%8F)與[按鈕程式](https://github.com/HappyKodalin/Team_A-2/blob/main/Task3%20GUI%E6%8C%89%E9%88%95%E7%A8%8B%E5%BC%8F))
 
 👇GUI模擬測試影片
 
