@@ -41,7 +41,7 @@
 ### 2.利用IO執行程式。
 
 👇IO點位示意圖
-![image](https://github.com/HappyKodalin/Team_A-2/assets/55493510/5771f457-9bdc-47ad-b43e-7c6453d77756)/n
+![image](https://github.com/HappyKodalin/Team_A-2/assets/55493510/5771f457-9bdc-47ad-b43e-7c6453d77756)
 👇IO點位用途介紹
 | 按鈕顏色| 控制介紹 |
 | ------------- | ------------- |
