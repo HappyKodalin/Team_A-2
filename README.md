@@ -9,7 +9,20 @@
 ## Task3 GUI 與 IO按鈕 控制
 ### 1.利用GUI可執行程式，也可更改手臂的移動速度。
 
- 👇GUI控制畫面
+ GUI控制畫面
+| 控制| Second Header |
+| ------------- | ------------- |
+| 程式繼續: 若手臂程式中途暫停按此按鈕可繼續動作。  | Content Cell  |
+| 程式暫停: 暫停手臂程式。  | Content Cell  |
+| 程式結束: 結束運作中的手臂程式。  | Content Cell  |
+| 回Home點: 手臂回到Home點。  | Content Cell  |
+| 速度改變: 跳出更改速度的介面。  | Content Cell  |
+ 程式繼續: 若手臂程式中途暫停按此按鈕可繼續動作。
+ 程式暫停: 暫停手臂程式。
+ 程式結束: 結束運作中的手臂程式。
+ 回Home點: 手臂回到Home點。
+ 速度改變: 跳出更改速度的介面。
+ 
  
 ![image](https://github.com/HappyKodalin/Team_A-2/assets/55493510/f1333059-2e8a-44d3-ada5-a1a21e031a00)
 
